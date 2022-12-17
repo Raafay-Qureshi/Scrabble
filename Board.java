@@ -3,11 +3,16 @@ public class Board {
     private Tile[][] pieces = new Tile[15][15];
 
     public Board() {
-
     }
 
-    public void placeTile(Tile tile, Coordinate startPos, Coordinate endPos) {
-        
+    public void placeWord(String word, Coordinate startPos, Coordinate endPos) {
+        for (char letter : word.toCharArray()) {
+            System.out.println(letter);
+        }
+    }
+
+    public void placeTile(Tile tile, Coordinate pos) {
+        pieces[pos.getY()][pos.getX()] = tile;
     }
 
     public String toString() {

@@ -1,15 +1,15 @@
 public class Tile {
-    String letter;
+    char letter;
 
-    public Tile(String letter) {
+    public Tile(char letter) {
         this.letter = letter;
     }
 
-    public String getLetter() {
+    public char getLetter() {
         return this.letter;
     }
 
-    public void setLetter(String letter) {
+    public void setLetter(char letter) {
         this.letter = letter;
     }
 }
