@@ -1,8 +1,25 @@
+import java.util.Scanner;
+
 public class Scrabble {
+    Board board;
+
     public Scrabble() {
-        Board board = new Board();
+        this.board = new Board();
         System.out.println(board);
-        Coordinate()
-        board.placeWord("hey daddy", null, null);
+    }
+
+    public void play() {
+        Scanner scanner = new Scanner(System.in);
+        Player player1 = new Player("Raafay");
+        Player player2 = new Player("Aaira");
+        for (int i = 0; i < 999; i++) {
+            
+            player1.takeTurn(board, scanner);
+            System.out.println(board);
+            
+            player2.takeTurn(board, scanner);
+            System.out.println(board);
+        }
+        scanner.close();
     }
 }

@@ -3,11 +3,17 @@ public class Board {
     private Tile[][] pieces = new Tile[15][15];
 
     public Board() {
+        initializeBoard();
     }
 
     public void placeWord(String word, Coordinate startPos, Coordinate endPos) {
-        for (char letter : word.toCharArray()) {
-            System.out.println(letter);
+        for (int i = 0; i < word.length(); i++) {
+            char letter = word.charAt(i);
+            if (startPos.getX() != endPos.getX()) {
+                pieces[startPos.getY()][startPos.getX() + i].setLetter(letter);
+            } else {
+                pieces[startPos.getY() + i][startPos.getX()].setLetter(letter);
+            }
         }
     }
 
@@ -17,24 +23,35 @@ public class Board {
 
     public String toString() {
         String result = "";
+        result += "\n\t";
         for (int i = 0; i < 15; i++) {
-            result += "\n";
+            result += " -----";
+        }
+        for (int i = 0; i < 15; i++) {
+            result += "\n" + (i+1) + "\t";
             for (int j = 0; j < 15; j++) {
-                result += " ---"; 
+                result += ("|  " + pieces[i][j].getLetter() +  "  ");
             }
-            result += "\n";
+            result += "|";
+
+            result += "\n\t";
             for (int j = 0; j < 15; j++) {
-                if (!(pieces[i][j] == null) ) {
-                    result += ("  " + pieces[i][j].getLetter() +  " ");
-                } else {
-                    result += "    ";
-                }
+                result += " -----";
             }
         }
-        result += "\n";
+        result += "\n\t";
+        String letters = "ABCDEFGHIJKLMNO";
         for (int i = 0; i < 15; i++) {
-            result += " ---"; 
+            result += "   " + letters.charAt(i) + "  ";
         }
         return result;
+    }
+    
+    public void initializeBoard() {
+        for (int i = 0; i < pieces.length; i++) {
+            for (int j = 0; j < pieces[i].length; j++) {
+            pieces[i][j] = new Tile(' ');
+            }
+        }
     }
 }
