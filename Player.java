@@ -20,7 +20,7 @@ public class Player {
   
     public void addScore(int points) {
       this.score += points;
-    }
+    } 
 
     public void takeTurn(Board board, Scanner input) {
       System.out.println("\n" + name + "'s turn!");

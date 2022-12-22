@@ -18,7 +18,7 @@ public class Board {
     }
 
     public void placeTile(Tile tile, Coordinate pos) {
-        pieces[pos.getY()][pos.getX()] = tile;
+        pieces[pos.getY()][pos.getX()] = tile;  
     }
 
     public String toString() {
@@ -46,12 +46,82 @@ public class Board {
         }
         return result;
     }
-    
+
+    public void createSpecialTile(char specialTile, Coordinate pos) {
+        pieces[pos.getX()][pos.getY()].setLetter(specialTile);
+    }
+
     public void initializeBoard() {
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
             pieces[i][j] = new Tile(' ');
             }
         }
+        initializeSpecialTiles();
+    }
+
+    public void initializeSpecialTiles() {
+        // Triple Word
+        createSpecialTile('\u2162', new Coordinate(0, 0));
+        createSpecialTile('\u2162', new Coordinate(7, 0));
+        createSpecialTile('\u2162', new Coordinate(14, 0));
+        createSpecialTile('\u2162', new Coordinate(0, 7));
+        createSpecialTile('\u2162', new Coordinate(0, 14));
+        createSpecialTile('\u2162', new Coordinate(14, 7));
+        createSpecialTile('\u2162', new Coordinate(14, 14));
+
+        // Double Word
+        createSpecialTile('\u2161', new Coordinate(1, 1));
+        createSpecialTile('\u2161', new Coordinate(2, 2));
+        createSpecialTile('\u2161', new Coordinate(3, 3));
+        createSpecialTile('\u2161', new Coordinate(4, 4));
+
+        createSpecialTile('\u2161', new Coordinate(13, 1));
+        createSpecialTile('\u2161', new Coordinate(12, 2));
+        createSpecialTile('\u2161', new Coordinate(11, 3));
+        createSpecialTile('\u2161', new Coordinate(10, 4));
+
+        createSpecialTile('\u2161', new Coordinate(1, 13));
+        createSpecialTile('\u2161', new Coordinate(2, 12));
+        createSpecialTile('\u2161', new Coordinate(3, 11));
+        createSpecialTile('\u2161', new Coordinate(4, 10));
+
+        createSpecialTile('\u2161', new Coordinate(13, 13));
+        createSpecialTile('\u2161', new Coordinate(12, 12));
+        createSpecialTile('\u2161', new Coordinate(11, 11));
+        createSpecialTile('\u2161', new Coordinate(10, 10));
+
+        // Triple Letter
+        createSpecialTile('\u2172', new Coordinate(1, 5));
+        createSpecialTile('\u2172', new Coordinate(1, 9));
+
+        createSpecialTile('\u2172', new Coordinate(5, 1));
+        createSpecialTile('\u2172', new Coordinate(5, 5));
+        createSpecialTile('\u2172', new Coordinate(5, 9));
+        createSpecialTile('\u2172', new Coordinate(5, 13));
+
+        createSpecialTile('\u2172', new Coordinate(9, 1));
+        createSpecialTile('\u2172', new Coordinate(9, 5));
+        createSpecialTile('\u2172', new Coordinate(9, 9));
+        createSpecialTile('\u2172', new Coordinate(9, 13));
+
+        createSpecialTile('\u2172', new Coordinate(13, 5));
+        createSpecialTile('\u2172', new Coordinate(13, 9));
+
+        // Double Letter
+        createSpecialTile('\u2171', new Coordinate(0, 3));
+        createSpecialTile('\u2171', new Coordinate(0, 12));
+
+        createSpecialTile('\u2171', new Coordinate(2, 6));
+        createSpecialTile('\u2171', new Coordinate(2, 8));
+
+        createSpecialTile('\u2171', new Coordinate(3, 0));
+        createSpecialTile('\u2171', new Coordinate(3, 7));
+        createSpecialTile('\u2171', new Coordinate(3, 14));
+
+        createSpecialTile('\u2171', new Coordinate(6, 2));
+        createSpecialTile('\u2171', new Coordinate(6, 6));
+        createSpecialTile('\u2171', new Coordinate(6, 8));
+        createSpecialTile('\u2171', new Coordinate(6, 8));
     }
 }
