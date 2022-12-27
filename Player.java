@@ -23,25 +23,33 @@ public class Player {
     } 
 
     public void takeTurn(Board board, Scanner input) {
+      Coordinate startPos, endPos;
       System.out.println("\n" + name + "'s turn!");
-      Word w = validateWord(input);
+      while (true) {
+        try {
+          Word w = validateWord(board, input);
 
-      // Place word on board
-      if (w.getOrientation() == 'h') {
-          Coordinate startPos = new Coordinate(w.getCol(), w.getRow());
-          Coordinate endPos = new Coordinate(w.getCol() + w.getWord().length(), w.getRow());
-          board.placeWord(w.getWord(), startPos, endPos);
-          System.out.println("placed!");
-      } else if (w.getOrientation() == 'v') {
-              Coordinate startPos = new Coordinate(w.getCol(), w.getRow());
-              Coordinate endPos = new Coordinate(w.getCol(), w.getRow() + w.getWord().length());
-              board.placeWord(w.getWord(), startPos, endPos);
-      } else {
-          System.out.println("Error: invalid orientation.");
+          // Place word on board
+          startPos = new Coordinate(w.getCol(), w.getRow());
+          if (w.getOrientation() == 'h') {
+              endPos = new Coordinate(w.getCol() + w.getWord().length(), w.getRow());
+          } else {
+              endPos = new Coordinate(w.getCol(), w.getRow() + w.getWord().length());
+          }
+
+          if (board.canPlaceWord(w.getWord(), startPos, endPos)) {
+            board.placeWord(w.getWord(), startPos, endPos);
+          } else {
+            throw new Exception("Cannot place word!");
+          }
+          break;
+        } catch (Exception e) {
+          System.out.println("Error: " + e.getMessage());
+        }
       }
     }
 
-    public Word validateWord(Scanner input) {
+    public Word validateWord(Board board, Scanner input) {
       String word; char orientation; int col, row;
       // Validate inputs
       while (true) {
@@ -71,7 +79,7 @@ public class Player {
           System.out.print("Enter the starting row [1-15]: ");
           row = input.nextInt() - 1;
           input.nextLine();
-          
+          //Row Validation
           if (!(row >= 0 && row <= 14)) {throw new Exception("Row should be in range [1-15]");}
           if (row + word.length() > 14 && orientation == 'v') {throw new Exception("Word is out of bounds!");}
           break;
