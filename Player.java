@@ -37,8 +37,8 @@ public class Player {
               endPos = new Coordinate(w.getCol(), w.getRow() + w.getWord().length());
           }
 
-          if (board.canPlaceWord(w.getWord(), startPos, endPos)) {
-            board.placeWord(w.getWord(), startPos, endPos);
+          if (board.canPlaceWord(w.getWord(), startPos, w.getOrientation())) {
+            board.placeWord(w.getWord(), startPos, w.getOrientation());
           } else {
             throw new Exception("Cannot place word!");
           }

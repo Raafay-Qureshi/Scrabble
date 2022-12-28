@@ -1,15 +1,18 @@
 public class Board {
 
+    private boolean firstWord = true;
     private Tile[][] pieces = new Tile[15][15];
 
     public Board() {
         initializeBoard();
     }
 
-    public void placeWord(String word, Coordinate startPos, Coordinate endPos) {
+    public void placeWord(String word, Coordinate startPos, char orientation) {
+        if (firstWord) {firstWord = false;}
+
         for (int i = 0; i < word.length(); i++) {
             char letter = word.charAt(i);
-            if (startPos.getX() != endPos.getX()) { 
+            if (orientation == 'h') { 
                 pieces[startPos.getY()][startPos.getX() + i].setLetter(letter);
             } else {
                 pieces[startPos.getY() + i][startPos.getX()].setLetter(letter);
@@ -17,19 +20,35 @@ public class Board {
         }
     }
 
-    public boolean canPlaceWord(String word, Coordinate startPos, Coordinate endPos) {
-        for (int i = 0; i < word.length(); i++) {
-            if (startPos.getX() != endPos.getX()) {
-                if (pieces[startPos.getY()][startPos.getX() + i].getLetter() != ' ') {
-                    return false;
-                }
-            } else {
-                if (pieces[startPos.getY() + i][startPos.getX()].getLetter() != ' ') {
-                    return false;
+    public boolean canPlaceWord(String word, Coordinate startPos, char orientation) {
+        if (firstWord) {
+            for (int i = 0; i < word.length(); i++) {
+                if (orientation == 'h') {
+                    if (startPos.getY() == 7 && startPos.getX() + i == 7) {
+                        return true;
+                    }
+                } else {
+                    if (startPos.getY() + i == 7 && startPos.getX() == 7) {
+                        return true;
+                    }
                 }
             }
+            return false;
+        } else {
+            for (int i = 0; i < word.length(); i++) {
+
+                if (orientation == 'h') {
+                    if (pieces[startPos.getY()][startPos.getX() + i].getLetter() != ' ') {
+                        return false;
+                    }
+                } else {
+                    if (pieces[startPos.getY() + i][startPos.getX()].getLetter() != ' ') {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
-        return true;
     }
 
     public void placeTile(Tile tile, Coordinate pos) {
