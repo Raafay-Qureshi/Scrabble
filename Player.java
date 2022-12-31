@@ -23,7 +23,7 @@ public class Player {
     } 
 
     public void takeTurn(Board board, Scanner input) {
-      Coordinate startPos, endPos;
+      Coordinate startPos;
       System.out.println("\n" + name + "'s turn!");
       while (true) {
         try {
@@ -31,11 +31,6 @@ public class Player {
 
           // Place word on board
           startPos = new Coordinate(w.getCol(), w.getRow());
-          if (w.getOrientation() == 'h') {
-              endPos = new Coordinate(w.getCol() + w.getWord().length(), w.getRow());
-          } else {
-              endPos = new Coordinate(w.getCol(), w.getRow() + w.getWord().length());
-          }
 
           if (board.canPlaceWord(w.getWord(), startPos, w.getOrientation())) {
             board.placeWord(w.getWord(), startPos, w.getOrientation());
