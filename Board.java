@@ -2,9 +2,11 @@ public class Board {
 
     private boolean firstWord = true;
     private Tile[][] pieces = new Tile[15][15];
+    private Words words;
 
     public Board() {
         initializeBoard();
+        words = new Words();
     }
 
     public void placeWord(String word, Coordinate startPos, char orientation) {
@@ -25,11 +27,15 @@ public class Board {
             for (int i = 0; i < word.length(); i++) {
                 if (orientation == 'h') {
                     if (startPos.getY() == 7 && startPos.getX() + i == 7) {
-                        return true;
+                        if (words.isWordValid(word)) {
+                            return true;
+                        }
                     }
                 } else {
                     if (startPos.getY() + i == 7 && startPos.getX() == 7) {
-                        return true;
+                        if (words.isWordValid(word)) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -54,7 +60,7 @@ public class Board {
                     emptyArea = false;
                 }
             }
-            if (emptyArea) {
+            if (emptyArea || !words.isWordValid(word)) {
                 return false;
             }
             return true;
@@ -73,8 +79,10 @@ public class Board {
             }
             i++;
         }
-        if (word != "" ) {
-            System.out.println(word);
+        if (word != "") {
+            if (!words.isWordValid(pieces[y][x].getLetter() + word)) {
+                return false;
+            }
         }
         return true;
     }
