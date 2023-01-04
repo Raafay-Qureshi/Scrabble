@@ -4,10 +4,14 @@ import java.util.Scanner;
 public class Player {
     private String name;
     private int score;
+    private Bag bag;
+    private Validator validator;
   
     public Player(String name) {
       this.name = name;
       this.score = 0;
+      this.bag = new Bag();
+      this.validator = new Validator();
     }
    
     public String getName() {
@@ -20,14 +24,19 @@ public class Player {
   
     public void addScore(int points) {
       this.score += points;
-    } 
+    }
+
+    public String getBag() {
+      return this.name + "'s bag: [" + bag.getBagContents() + "]";
+    }
 
     public void takeTurn(Board board, Scanner input) {
       Coordinate startPos;
       System.out.println("\n" + name + "'s turn!");
+      System.out.println(getBag());
       while (true) {
         try {
-          Word w = validateWord(board, input);
+          Word w = getInputs(board, input);
 
           // Place word on board
           startPos = new Coordinate(w.getCol(), w.getRow());
@@ -44,41 +53,31 @@ public class Player {
       }
     }
 
-    public Word validateWord(Board board, Scanner input) {
+    public Word getInputs(Board board, Scanner input) {
       String word; char orientation; int col, row;
+      Word wordObj;
       // Validate inputs
       while (true) {
         try {
           // Word Input
           System.out.print("Enter the word to place: ");
           word = input.nextLine().toLowerCase();
-          // Word Validation
-          if (!word.matches("[a-z]+")) {throw new Exception("Word should only be letters");}
-
           // Orientation Input
           System.out.print("Enter the orientation (v for vertical, h for horizontal): ");
           orientation = Character.toLowerCase(input.nextLine().charAt(0));
-          // Orientation Validation
-          if (orientation != 'v' && orientation != 'h') {throw new Exception("Orientation should be v or h");}
-
           // Column Input
           System.out.print("Enter the starting column [A-O]: ");
           String letters = "ABCDEFGHIJKLMNO";
           char colLetter = Character.toUpperCase(input.nextLine().charAt(0));
-          // Column Validation
           if (letters.indexOf(colLetter) == -1) {throw new Exception("Column Letter should be in range [A-O]");}
           col = letters.indexOf(colLetter);
-          if (col + word.length() > 14 && orientation == 'h') {throw new Exception("Word is out of bounds!");}
-
           // Row Input
           System.out.print("Enter the starting row [1-15]: ");
           row = input.nextInt() - 1;
           input.nextLine();
-          //Row Validation
-          if (!(row >= 0 && row <= 14)) {throw new Exception("Row should be in range [1-15]");}
-          if (row + word.length() > 14 && orientation == 'v') {throw new Exception("Word is out of bounds!");}
+          wordObj = new Word(word, orientation, col, row);
+          validator.validateInputs(wordObj);
           break;
-
         } catch (Exception e) {
           if (e instanceof InputMismatchException) {
             System.out.println("Error: Row should be a number!");
@@ -87,6 +86,6 @@ public class Player {
           }
         }
       }
-      return new Word(word, orientation, col, row);
+      return wordObj;
     }
   }
